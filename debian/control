@@ -3,7 +3,7 @@ Section: misc
 Priority: optional
 Maintainer: ZorpOS Maintainers <zorpos@balabit.com>
 Standards-Version: 3.2.0
-Build-Depends: iptables-dev, debhelper (>= 7), build-essential, devscripts
+Build-Depends: iptables-dev, debhelper (>= 7), build-essential, devscripts, pkg-config
 
 Package: iptables-zorp-addons
 Architecture: any
