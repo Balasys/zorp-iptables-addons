@@ -1,0 +1,40 @@
+language: c
+
+compiler:
+  - gcc
+
+branches:
+  only:
+    - /^6\.0\.[0-9]*$/
+
+before_install:
+  - source ci/obs_common.sh
+  - source ci/obs_before_install.sh
+
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install -qq devscripts equivs
+  - sudo apt-get update -qq
+  - sudo mk-build-deps -i -r
+
+script:
+  - autoreconf -if
+  - ./configure --prefix=$HOME
+  - make
+  - make check
+  - source ci/obs_common.sh
+  - source ci/obs_prepare.sh
+
+after_success:
+  - source ci/obs_common.sh
+  - source ci/obs_commit.sh
+
+env:
+  global:
+    - secure: "cR2clzakpM21VwsjfCt295/lu2wV4XkHCQrZuD0uCA9yRTnbZK4wOlL79fpWAjzZ+5m9pV2Am4BSn0hdd0ylGpK5B1PK3rNDAieKC6PPO04/yXwS5XKyatMS1SC++4HxtG48HBKlHGuBG66MTX/3fO4N36ThZh6i+Vbiz4/BnS4H7xCKrxpmC+VHFp5O2mTkt4KPmmgTDHOPeiDbfu8hNpYtepU0vbA+S3+JDPbIHvyBbrJTfRo3KzXAD8/NKM1UuFpTeWET+Mt9WAISENVLGruX3/yg0TaKZ+yDbVwZydoiflbUxy5jw7pTQhp1ETkQyMT2nKVB9pv/VTCRuWdBxCfgnKK59UZIxnvwXBNMyhp6zzY8AvdzSbT+Hjp47zGcA6qyNQbfwoRm+Uk0dU7EHOQjNJjAJI25Amue+scNRNatPWg/b7Xd4ChvWXV2P37kwNtlJ4hEPPNeehVmkkPiec1FmG1DsbtZWj/ZMhpv5WAfbYay/Yh6E0r2agA/YMpwHdZPQOwW4k0yXeZL2kQ0p+SbMSTSs2aCRh5DWnnrdWmcLsabOebGpX4spTNZZPlnyiV14GkKw+fQZ5tp5uE9rrOroqrQJF5/ZFBHAkRvjRIv3fvhq7fNHLIDRbzg2uNJzptm2XUYVpfmssgxUmov0FSTo/7p3yN4jBqOM/fjRUE="
+    - OBS_HOME=security
+    - OBS_PROJECT=Zorp
+    - OBS_MAJOR_VERSION=6
+    - OBS_MINOR_VERSION=0
+    - OBS_MAINTENANCE_VERSION=12
+    - OBS_PACKAGE=iptables-addons
