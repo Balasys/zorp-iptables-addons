@@ -1,0 +1,40 @@
+language: c
+
+compiler:
+  - gcc
+
+branches:
+  only:
+    - /^6\.0\.[0-9]*$/
+
+before_install:
+  - source ci/obs_common.sh
+  - source ci/obs_before_install.sh
+
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install -qq devscripts equivs
+  - sudo apt-get update -qq
+  - sudo mk-build-deps -i -r
+
+script:
+  - ./autogen.sh
+  - ./configure --prefix=$HOME
+  - make
+  - make check
+  - source ci/obs_common.sh
+  - source ci/obs_prepare.sh
+
+after_success:
+  - source ci/obs_common.sh
+  - source ci/obs_commit.sh
+
+env:
+  global:
+    - secure: "WTXM762CTrWg7lfFlW3kS2MYoIlOctJw/qVpKJHM5nIhvfMv4WCaB9X07qO1icgmWRYsKpcwT2VI4Kxe79DWE7iM0hatradd0G0EBmpbTNyLO6ZivgKr621s1XhQ0ZmCZq1KK0LQW2BhRtYImLd1/NZMZxQTElUmRgpFX/s7760="
+    - OBS_HOME=security
+    - OBS_PROJECT=Zorp
+    - OBS_MAJOR_VERSION=6
+    - OBS_MINOR_VERSION=0
+    - OBS_MAINTENANCE_VERSION=1
+    - OBS_PACKAGE=iptables-addons
