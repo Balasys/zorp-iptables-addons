@@ -1,11 +1,11 @@
 /*
  * Shared library add-on to iptables to add early socket matching support.
  *
- * Copyright (C) 2007 BalaBit IT Ltd.
+ * Copyright (C) 2007,2014 BalaBit IT Ltd.
  */
 #include <stdio.h>
 #include <xtables.h>
-#include <linux/netfilter/xt_socket.h>
+#include <linux/netfilter/xt_socket_kzorp.h>
 
 enum {
 	O_TRANSPARENT = 0,
@@ -78,7 +78,7 @@ static void
 socket_mt_print(const void *ip, const struct xt_entry_match *match,
 		int numeric)
 {
-	printf(" socket");
+	printf(" socket_kzorp");
 	socket_mt_save(ip, match);
 }
 
@@ -97,13 +97,13 @@ static void
 socket_mt_print_v2(const void *ip, const struct xt_entry_match *match,
 		   int numeric)
 {
-	printf(" socket");
+	printf(" socket_kzorp");
 	socket_mt_save_v2(ip, match);
 }
 
 static struct xtables_match socket_mt_reg[] = {
 	{
-		.name          = "socket",
+		.name          = "socket_kzorp",
 		.revision      = 0,
 		.family        = NFPROTO_IPV4,
 		.version       = XTABLES_VERSION,
@@ -111,7 +111,7 @@ static struct xtables_match socket_mt_reg[] = {
 		.userspacesize = XT_ALIGN(0),
 	},
 	{
-		.name          = "socket",
+		.name          = "socket_kzorp",
 		.revision      = 1,
 		.family        = NFPROTO_UNSPEC,
 		.version       = XTABLES_VERSION,
@@ -124,7 +124,7 @@ static struct xtables_match socket_mt_reg[] = {
 		.x6_options    = socket_mt_opts,
 	},
 	{
-		.name          = "socket",
+		.name          = "socket_kzorp",
 		.revision      = 2,
 		.family        = NFPROTO_UNSPEC,
 		.version       = XTABLES_VERSION,
