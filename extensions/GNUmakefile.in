@@ -49,6 +49,9 @@ clean:
 distclean: clean
 	rm -f .*.d .*.dd;
 
+check:
+	echo "no need to check"
+
 #
 #	Shared libraries
 #
