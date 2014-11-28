@@ -1,2 +1,3 @@
+lib/xtables/libxt_rule.so
 lib/xtables/libxt_service.so
 lib/xtables/libxt_zone.so
