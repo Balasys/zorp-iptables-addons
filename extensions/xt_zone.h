@@ -3,9 +3,9 @@
 
 /* flags */
 enum {
-	IPT_ZONE_SRC = 1,
-	IPT_ZONE_CHILDREN = 2,
-	IPT_ZONE_UMBRELLA = 4,
+	IPT_ZONE_SRC      = 1 << 0,
+	IPT_ZONE_CHILDREN = 1 << 1,
+	IPT_ZONE_UMBRELLA = 1 << 2,
 };
 
 #define IPT_ZONE_NAME_LENGTH 126
@@ -17,6 +17,12 @@ struct ipt_zone_info {
 };
 
 struct ipt_zone_info_v1 {
+	u_int8_t flags;
+	u_int8_t count;
+	unsigned char names[IPT_ZONE_NAME_COUNT][IPT_ZONE_NAME_LENGTH + 1];
+};
+
+struct ipt_zone_info_v2 {
 	u_int8_t flags;
 	u_int8_t count;
 	unsigned char names[IPT_ZONE_NAME_COUNT][IPT_ZONE_NAME_LENGTH + 1];

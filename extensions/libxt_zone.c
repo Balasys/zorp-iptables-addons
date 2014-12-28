@@ -44,6 +44,23 @@ static void zone_help_v1(void)
 XTABLES_VERSION);
 }
 
+static void zone_help_v2(void)
+{
+	printf(
+"zone v%s options:\n"
+" --source-zones zone[,zone,zone,...]\n"
+" --src-zones ...\n"
+" --szones ...\n"
+"			Match source zone(s)\n"
+" --destination-zones zone[,zone,zone,...]\n"
+" --dst-zones ...\n"
+" --dzones ...\n"
+"			Match destination zone(s)\n"
+"  --children		Administrative children should match, too\n",
+XTABLES_VERSION);
+}
+
+
 static struct option zone_opts_v0[] = {
 	{ .name = "src-zone", .has_arg = true, .val = '1' },
 	{ .name = "dst-zone", .has_arg = true, .val = '2' },
@@ -65,6 +82,18 @@ static struct option zone_opts_v1[] = {
 	{ .name = "umbrella", .has_arg = false, .val = '4' },
 	{ .name = NULL }
 };
+
+static struct option zone_opts_v2[] = {
+	{ .name = "source-zones", .has_arg = true, .val = '1' },
+	{ .name = "src-zones", .has_arg = true, .val = '1' },
+	{ .name = "szones", .has_arg = true, .val = '1' },
+	{ .name = "destination-zones", .has_arg = true, .val = '2' },
+	{ .name = "dst-zones", .has_arg = true, .val = '2' },
+	{ .name = "dzones", .has_arg = true, .val = '2' },
+	{ .name = "children", .has_arg = false, .val = '3' },
+	{ .name = NULL }
+};
+
 
 static unsigned int
 parse_zone_names(const char *zonestring, struct ipt_zone_info_v1 *info, size_t max_length)
@@ -240,15 +269,67 @@ zone_parse_v1(int c, char **argv, int invert, unsigned int *flags,
 		*flags |= F_CHILDREN;
 		break;
 
-	case '4':
-		if (*flags & F_UMBRELLA)
+	default:
+		return 0;
+	}
+
+	return 1;
+}
+
+static void
+zone_parse_zones(struct ipt_zone_info_v1 *info, u_int8_t zone_type_flag, unsigned int *flags)
+{
+	const char *zone_type = (zone_type_flag & F_SRC) ? "source" : "destination";
+	const int opposite_zone_type_flag = (zone_type_flag & F_SRC) ? F_DST : F_SRC;
+
+	if (*flags & zone_type_flag)
+		xtables_error(PARAMETER_PROBLEM,
+			   "Cannot specify `--%s-zones' "
+			   "more than once\n", zone_type);
+	if (*flags & opposite_zone_type_flag)
+		xtables_error(PARAMETER_PROBLEM,
+			   "Cannot specify `--source-zones' "
+			   "together with `--destination-zones'\n");
+
+	if (strlen(optarg) == 0)
+		xtables_error(PARAMETER_PROBLEM,
+			   "`--%s-zones' must be accompanied "
+			   "by a zone name\n", zone_type);
+
+	info->count = parse_zone_names(optarg,
+	                               info,
+				       sizeof(info->names[0]) - 1);
+	if (zone_type_flag & F_SRC)
+		info->flags |= IPT_ZONE_SRC;
+
+	*flags |= zone_type_flag;
+}
+
+static int
+zone_parse_v2(int c, char **argv, int invert, unsigned int *flags,
+	      const void *entry, struct xt_entry_match **match)
+{
+	struct ipt_zone_info_v1 *info = (struct ipt_zone_info_v1 *) (*match)->data;
+
+	switch (c)
+	{
+	case '1': /* src-zone */
+		zone_parse_zones(info, F_SRC, flags);
+		break;
+
+	case '2': /* dst-zone */
+		zone_parse_zones(info, F_DST, flags);
+		break;
+
+	case '3':
+		if (*flags & F_CHILDREN)
 			xtables_error(PARAMETER_PROBLEM,
-			           "Cannot specify `--umbrella' "
+			           "Cannot specify `--children' "
 				   "more than once\n");
 
-		info->flags |= IPT_ZONE_UMBRELLA;
+		info->flags |= IPT_ZONE_CHILDREN;
 
-		*flags |= F_UMBRELLA;
+		*flags |= F_CHILDREN;
 		break;
 
 	default:
@@ -314,6 +395,12 @@ zone_print_v1(const void *ip, const struct xt_entry_match *match, int numeric)
 }
 
 static void
+zone_print_v2(const void *ip, const struct xt_entry_match *match, int numeric)
+{
+	zone_print_v1(ip, match, numeric);
+}
+
+static void
 zone_save_v0(const void *ip, const struct xt_entry_match *match)
 {
 	struct ipt_zone_info *info = (struct ipt_zone_info *) match->data;
@@ -354,6 +441,12 @@ zone_save_v1(const void *ip, const struct xt_entry_match *match)
 		fputs(" --umbrella", stdout);
 }
 
+static void
+zone_save_v2(const void *ip, const struct xt_entry_match *match)
+{
+	zone_save_v1(ip, match);
+}
+
 static struct xtables_match zone_match_v0 = {
 	.name		= "zone",
 	.family		= NFPROTO_IPV4,
@@ -383,8 +476,25 @@ static struct xtables_match zone_match_v1 = {
 	.extra_opts	= zone_opts_v1,
 };
 
+static struct xtables_match zone_match_v2 = {
+	.name		= "zone",
+	.family		= NFPROTO_UNSPEC,
+	.revision	= 2,
+	.version	= XTABLES_VERSION,
+	.size		= XT_ALIGN(sizeof(struct ipt_zone_info_v2)),
+	.userspacesize	= XT_ALIGN(sizeof(struct ipt_zone_info_v2)),
+	.help		= zone_help_v2,
+	.parse		= zone_parse_v2,
+	.final_check	= zone_final_check,
+	.print		= zone_print_v2,
+	.save		= zone_save_v2,
+	.extra_opts	= zone_opts_v2,
+};
+
+
 void _init(void)
 {
 	xtables_register_match(&zone_match_v0);
 	xtables_register_match(&zone_match_v1);
+	xtables_register_match(&zone_match_v2);
 }
