@@ -18,7 +18,7 @@ rule_help(void)
 {
 	printf(
 "rule v%s options:\n"
-"  --rule-id <svc>		match rule id\n",
+"  --rule-id <id>		match rule id\n",
 XTABLES_VERSION);
 }
 
