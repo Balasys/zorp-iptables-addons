@@ -314,10 +314,6 @@ zone_parse_v2 (struct xt_option_call *cb)
 		info->flags |= XT_ZONE_CHILDREN;
 		break;
 
-	case O_UMBRELLA:
-		info->flags |= XT_ZONE_UMBRELLA;
-		break;
-
 	case O_NOCOUNT:
 		info->flags |= XT_ZONE_NOCOUNT;
 		break;
