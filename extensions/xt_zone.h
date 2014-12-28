@@ -6,6 +6,7 @@ enum {
 	XT_ZONE_SRC      = 1 << 0,
 	XT_ZONE_CHILDREN = 1 << 1,
 	XT_ZONE_UMBRELLA = 1 << 2,
+	XT_ZONE_NOCOUNT  = 1 << 3,
 };
 
 #define XT_ZONE_NAME_LENGTH 126

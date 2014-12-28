@@ -56,7 +56,8 @@ static void zone_help_v2(void)
 " --dst-zones ...\n"
 " --dzones ...\n"
 "			Match destination zone(s)\n"
-"  --children		Administrative children should match, too\n",
+"  --children		Administrative children should match, too\n"
+"  --nocount		do not count matching zones\n",
 XTABLES_VERSION);
 }
 
@@ -88,10 +89,12 @@ enum {
 	O_DST		= 1,
 	O_CHILDREN	= 2,
 	O_UMBRELLA	= 3,
+	O_NOCOUNT	= 4,
 	F_SRC		= 1 << O_SRC,
 	F_DST		= 1 << O_DST,
 	F_CHILDREN	= 1 << O_CHILDREN,
 	F_UMBRELLA	= 1 << O_UMBRELLA,
+	F_NOCOUNT	= 1 << O_NOCOUNT,
 };
 
 static struct xt_option_entry zone_opts_v2[] = {
@@ -102,6 +105,7 @@ static struct xt_option_entry zone_opts_v2[] = {
 	{ .name = "dst-zones",		.id = O_DST,		.type = XTTYPE_STRING,	.excl = F_SRC },
 	{ .name = "dzones",		.id = O_DST,		.type = XTTYPE_STRING,	.excl = F_SRC },
 	{ .name = "children",		.id = O_CHILDREN,	.type = XTTYPE_NONE },
+	{ .name = "nocount",  		.id = O_NOCOUNT,	.type = XTTYPE_NONE },
 	XTOPT_TABLEEND,
 };
 
@@ -313,6 +317,10 @@ zone_parse_v2 (struct xt_option_call *cb)
 	case O_UMBRELLA:
 		info->flags |= XT_ZONE_UMBRELLA;
 		break;
+
+	case O_NOCOUNT:
+		info->flags |= XT_ZONE_NOCOUNT;
+		break;
 	}
 }
 
@@ -383,7 +391,12 @@ zone_print_v1(const void *ip, const struct xt_entry_match *match, int numeric)
 static void
 zone_print_v2(const void *ip, const struct xt_entry_match *match, int numeric)
 {
+	const struct xt_zone_info *info = (struct xt_zone_info *) match->data;
+
 	zone_print_v1(ip, match, numeric);
+
+	if (info->flags & XT_ZONE_NOCOUNT)
+		fputs(" nocount", stdout);
 }
 
 static void
@@ -430,7 +443,12 @@ zone_save_v1(const void *ip, const struct xt_entry_match *match)
 static void
 zone_save_v2(const void *ip, const struct xt_entry_match *match)
 {
+	const struct xt_zone_info *info = (struct xt_zone_info *) match->data;
+
 	zone_save_v1(ip, match);
+
+	if (info->flags & XT_ZONE_NOCOUNT)
+		fputs(" --nocount", stdout);
 }
 
 static struct xtables_match zone_match_v0 = {
