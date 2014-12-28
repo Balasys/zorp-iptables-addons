@@ -3,9 +3,11 @@
 
 enum {
 	XT_RULE_ID = 1 << 0,
+	XT_RULE_NOCOUNT = 1 << 1,
 };
 
 struct xt_rule_info {
+	u_int8_t flags;
 	u_int32_t id;
 };
 
