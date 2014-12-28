@@ -22,60 +22,29 @@ rule_help(void)
 XTABLES_VERSION);
 }
 
-static struct option rule_opts[] = {
-	{ .name = "rule-id", .has_arg = true, .val = '1' },
-	{ .name = NULL }
-};
-
 enum {
-	F_ID = 1 << 0,
+	O_RULE_ID 	= 0,
+	F_ID 		= 1 << O_RULE_ID,
 };
 
-static int
-rule_parse(int c, char **argv, int invert, unsigned int *flags,
-	      const void *entry, struct xt_entry_match **match)
-{
-	struct ipt_rule_info *info =
-			(struct ipt_rule_info *) (*match)->data;
-
-	switch (c) {
-	case '1': /* rule-id */
-		if (*flags & F_ID)
-			xtables_error(PARAMETER_PROBLEM,
-				   "Cannot specify `--rule-id' "
-				   "more than once\n");
-		if (strlen(optarg) == 0)
-			xtables_error(PARAMETER_PROBLEM,
-				   "`--rule-id' must be accompanied by "
-				   "a rule id\n");
-		info->id = atoi(optarg);
-		if (info->id <= 0)
-			xtables_error(PARAMETER_PROBLEM,
-				   "rule id must be a positive integer "
-				   "value\n");
-		info->flags |= IPT_RULE_ID;
-		*flags |= F_ID;
-		break;
-
-	default:
-		return 0;
-	}
-
-	return 1;
-}
+#define s struct xt_rule_info
+static struct xt_option_entry rule_opts[] = {
+	{ .name = "rule-id",	.id = O_RULE_ID,	.type = XTTYPE_UINT32,
+	  .flags = XTOPT_MAND | XTOPT_PUT, XTOPT_POINTER(s, id), .min = 1 },
+	XTOPT_TABLEEND,
+};
+#undef s
 
 static void
-rule_final_check(unsigned int flags)
+rule_parse(struct xt_option_call *cb)
 {
-	if (!(flags & F_ID))
-		xtables_error(PARAMETER_PROBLEM,
-			   "You must specify `--rule-id'\n");
+        xtables_option_parse(cb);
 }
 
 static void
 rule_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
-	struct ipt_rule_info *info = (struct ipt_rule_info *) match->data;
+	struct xt_rule_info *info = (struct xt_rule_info *) match->data;
 
 	printf(" rule");
 	printf(" rule-id %d", info->id);
@@ -84,7 +53,7 @@ rule_print(const void *ip, const struct xt_entry_match *match, int numeric)
 static void
 rule_save(const void *ip, const struct xt_entry_match *match)
 {
-	struct ipt_rule_info *info = (struct ipt_rule_info *)match->data;
+	struct xt_rule_info *info = (struct xt_rule_info *)match->data;
 
 	printf(" --rule-id %d", info->id);
 }
@@ -94,14 +63,13 @@ static struct xtables_match rule = {
 	.family		= NFPROTO_UNSPEC,
 	.version	= XTABLES_VERSION,
 	.revision	= 0,
-	.size		= XT_ALIGN(sizeof(struct ipt_rule_info)),
-	.userspacesize	= XT_ALIGN(sizeof(struct ipt_rule_info)),
+	.size		= XT_ALIGN(sizeof(struct xt_rule_info)),
+	.userspacesize	= XT_ALIGN(sizeof(struct xt_rule_info)),
 	.help		= rule_help,
-	.parse		= rule_parse,
-	.final_check	= rule_final_check,
+	.x6_parse	= rule_parse,
 	.print		= rule_print,
 	.save		= rule_save,
-	.extra_opts	= rule_opts
+	.x6_options	= rule_opts
 };
 
 void _init(void)
