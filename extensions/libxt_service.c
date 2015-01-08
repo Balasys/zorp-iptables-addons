@@ -23,6 +23,17 @@ service_help(void)
 XTABLES_VERSION);
 }
 
+static void
+service_help_v2(void)
+{
+	printf(
+"service v%s options:\n"
+"  --service-name <svc>		match service name\n"
+"  --service-type <mode>	match service type: forward | proxy\n"
+"  --nocount			do not count matching service\n",
+XTABLES_VERSION);
+}
+
 static struct option service_opts[] = {
 	{ .name = "service-name", .has_arg = true, .val = '1' },
 	{ .name = "service-type", .has_arg = true, .val = '2' },
@@ -32,8 +43,10 @@ static struct option service_opts[] = {
 enum {
 	O_NAME		= 0,
 	O_TYPE		= 1,
+	O_NOCOUNT	= 2,
 	F_NAME		= 1 << O_NAME,
 	F_TYPE		= 1 << O_TYPE,
+	F_NOCOUNT	= 1 << O_NOCOUNT,
 };
 
 #define s struct xt_service_info
@@ -41,6 +54,7 @@ static struct xt_option_entry service_opts_v2[] = {
 	{ .name = "service-name",	.id = O_NAME,		.type = XTTYPE_STRING,
 	  .flags = XTOPT_PUT, XTOPT_POINTER(s, name), .size = XT_SERVICE_NAME_LENGTH },
 	{ .name = "service-type",	.id = O_TYPE,		.type = XTTYPE_STRING },
+	{ .name = "nocount",		.id = O_NOCOUNT,	.type = XTTYPE_NONE },
 	XTOPT_TABLEEND,
 };
 #undef s
@@ -128,6 +142,10 @@ service_parse_v2(struct xt_option_call *cb)
 				   "`--service-type' must be accompanied "
 				   "by a valid service type\n");
 		break;
+
+	case O_NOCOUNT:
+			info->flags = XT_SERVICE_NOCOUNT;
+		break;
 	}
 }
 
@@ -148,17 +166,46 @@ service_final_check_v2(struct xt_fcheck_call *cb)
 }
 
 static void
+print_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_int8_t flags)
+{
+	fputs("service ", stdout);
+	if (name_match != XT_SERVICE_NAME_ANY)
+		printf(" name %s", name);
+	if (type != XT_SERVICE_TYPE_ANY)
+		printf(" type %s",
+		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy "
+						       : "forward ");
+	if (flags & XT_SERVICE_NOCOUNT)
+		printf(" nocount");
+}
+
+static void
 service_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
 	struct xt_service_info *info = (struct xt_service_info *) match->data;
 
-	fputs("service ", stdout);
-	if (info->name_match != XT_SERVICE_NAME_ANY)
-		printf(" name %s", info->name);
-	if (info->type != XT_SERVICE_TYPE_ANY)
-		printf(" type %s",
-		       (info->type == XT_SERVICE_TYPE_PROXY) ? "proxy "
-							      : "forward ");
+	print_service(info->type, info->name_match, info->name, 0);
+}
+
+static void
+service_print_v2(const void *ip, const struct xt_entry_match *match, int numeric)
+{
+	struct xt_service_info_v2 *info = (struct xt_service_info_v2 *) match->data;
+
+	print_service(info->type, info->name_match, info->name, info->flags);
+}
+
+static void
+save_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_int8_t flags)
+{
+	if (name_match != XT_SERVICE_NAME_ANY)
+		printf(" --service-name %s", name);
+	if (type != XT_SERVICE_TYPE_ANY)
+		printf(" --service-type %s",
+		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy "
+						       : "forward ");
+	if (flags & XT_SERVICE_NOCOUNT)
+		printf(" --nocount");
 }
 
 static void
@@ -166,12 +213,15 @@ service_save(const void *ip, const struct xt_entry_match *match)
 {
 	struct xt_service_info *info = (struct xt_service_info *)match->data;
 
-	if (info->name_match != XT_SERVICE_NAME_ANY)
-		printf(" --service-name %s", info->name);
-	if (info->type != XT_SERVICE_TYPE_ANY)
-		printf(" --service-type %s",
-		       (info->type == XT_SERVICE_TYPE_PROXY) ? "proxy "
-							      : "forward ");
+	save_service(info->type, info->name_match, info->name, 0);
+}
+
+static void
+service_save_v2(const void *ip, const struct xt_entry_match *match)
+{
+	struct xt_service_info_v2 *info = (struct xt_service_info_v2 *)match->data;
+
+	save_service(info->type, info->name_match, info->name, info->flags);
 }
 
 static struct xtables_match service_match = {
@@ -196,11 +246,11 @@ static struct xtables_match service_match_v2 = {
 	.version	= XTABLES_VERSION,
 	.size		= XT_ALIGN(sizeof(struct xt_service_info_v2)),
 	.userspacesize	= XT_ALIGN(sizeof(struct xt_service_info_v2)),
-	.help		= service_help,
+	.help		= service_help_v2,
 	.x6_parse	= service_parse_v2,
 	.x6_fcheck	= service_final_check_v2,
-	.print		= service_print,
-	.save		= service_save,
+	.print		= service_print_v2,
+	.save		= service_save_v2,
 	.x6_options	= service_opts_v2
 };
 
