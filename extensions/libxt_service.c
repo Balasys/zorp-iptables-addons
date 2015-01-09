@@ -41,7 +41,7 @@ static struct xt_option_entry service_opts_v2[] = {
 	{ .name = "service-name",	.id = O_NAME,		.type = XTTYPE_STRING,
 	  .flags = XTOPT_PUT, XTOPT_POINTER(s, name), .size = XT_SERVICE_NAME_LENGTH },
 	{ .name = "service-type",	.id = O_TYPE,		.type = XTTYPE_STRING },
-	{ .name = NULL }
+	XTOPT_TABLEEND,
 };
 #undef s
 
@@ -121,7 +121,7 @@ service_parse_v2(struct xt_option_call *cb)
 	case O_TYPE:
 		if (strcmp(optarg, "forward") == 0)
 			info->type = XT_SERVICE_TYPE_FORWARD;
-		else if (strcmp(optarg, "proxy") != 0)
+		else if (strcmp(optarg, "proxy") == 0)
 			info->type = XT_SERVICE_TYPE_PROXY;
 		else
 			xtables_error(PARAMETER_PROBLEM,
