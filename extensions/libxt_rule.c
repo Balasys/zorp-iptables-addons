@@ -18,7 +18,7 @@ rule_help(void)
 {
 	printf(
 "rule v%s options:\n"
-"  --rule-id <svc>		match rule id\n",
+"  --rule-id <id>		match rule id\n",
 XTABLES_VERSION);
 }
 
@@ -77,8 +77,8 @@ rule_print(const void *ip, const struct xt_entry_match *match, int numeric)
 {
 	struct ipt_rule_info *info = (struct ipt_rule_info *) match->data;
 
-	fputs("rule ", stdout);
-	printf(" id %d", info->id);
+	printf(" rule");
+	printf(" rule-id %d", info->id);
 }
 
 static void
