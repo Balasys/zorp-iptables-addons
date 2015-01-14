@@ -168,13 +168,13 @@ service_final_check_v2(struct xt_fcheck_call *cb)
 static void
 print_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_int8_t flags)
 {
-	fputs("service ", stdout);
+	fputs(" service", stdout);
 	if (name_match != XT_SERVICE_NAME_ANY)
 		printf(" name %s", name);
 	if (type != XT_SERVICE_TYPE_ANY)
 		printf(" type %s",
-		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy "
-						       : "forward ");
+		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy"
+						       : "forward");
 	if (flags & XT_SERVICE_NOCOUNT)
 		printf(" nocount");
 }
@@ -202,8 +202,8 @@ save_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_in
 		printf(" --service-name %s", name);
 	if (type != XT_SERVICE_TYPE_ANY)
 		printf(" --service-type %s",
-		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy "
-						       : "forward ");
+		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy"
+						       : "forward");
 	if (flags & XT_SERVICE_NOCOUNT)
 		printf(" --nocount");
 }
