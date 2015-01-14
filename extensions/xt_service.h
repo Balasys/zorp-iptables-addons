@@ -1,7 +1,7 @@
 #ifndef _XT_SERVICE_H
 #define _XT_SERVICE_H
 
-enum {
+enum xt_service_type {
 	XT_SERVICE_TYPE_ANY = 0,
 	XT_SERVICE_TYPE_PROXY,
 	XT_SERVICE_TYPE_FORWARD,

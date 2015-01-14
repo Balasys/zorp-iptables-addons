@@ -165,6 +165,23 @@ service_final_check_v2(struct xt_fcheck_call *cb)
 	service_final_check(cb->xflags);
 }
 
+static inline const char *
+get_type_name_from_type_num(enum xt_service_type type)
+{
+	switch (type) {
+	case XT_SERVICE_TYPE_ANY:
+		break;
+
+	case XT_SERVICE_TYPE_PROXY:
+		return "proxy";
+
+	case XT_SERVICE_TYPE_FORWARD:
+		return "forward";
+	}
+
+	return NULL;
+}
+
 static void
 print_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_int8_t flags)
 {
@@ -172,9 +189,7 @@ print_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_i
 	if (name_match != XT_SERVICE_NAME_ANY)
 		printf(" name %s", name);
 	if (type != XT_SERVICE_TYPE_ANY)
-		printf(" type %s",
-		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy"
-						       : "forward");
+		printf(" type %s", get_type_name_from_type_num(type));
 	if (flags & XT_SERVICE_NOCOUNT)
 		printf(" nocount");
 }
@@ -194,16 +209,13 @@ service_print_v2(const void *ip, const struct xt_entry_match *match, int numeric
 
 	print_service(info->type, info->name_match, info->name, info->flags);
 }
-
 static void
 save_service(u_int8_t type, u_int8_t name_match, const unsigned char *name, u_int8_t flags)
 {
 	if (name_match != XT_SERVICE_NAME_ANY)
 		printf(" --service-name %s", name);
 	if (type != XT_SERVICE_TYPE_ANY)
-		printf(" --service-type %s",
-		       (type == XT_SERVICE_TYPE_PROXY) ? "proxy"
-						       : "forward");
+		printf(" --service-type %s ", get_type_name_from_type_num(type));
 	if (flags & XT_SERVICE_NOCOUNT)
 		printf(" --nocount");
 }
