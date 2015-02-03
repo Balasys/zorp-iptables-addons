@@ -49,7 +49,7 @@ enum {
 	F_NOCOUNT	= 1 << O_NOCOUNT,
 };
 
-#define s struct xt_service_info
+#define s struct xt_service_info_v2
 static struct xt_option_entry service_opts_v2[] = {
 	{ .name = "service-name",	.id = O_NAME,		.type = XTTYPE_STRING,
 	  .flags = XTOPT_PUT, XTOPT_POINTER(s, name), .size = XT_SERVICE_NAME_LENGTH },
