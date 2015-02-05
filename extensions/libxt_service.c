@@ -133,9 +133,9 @@ service_parse_v2(struct xt_option_call *cb)
 		break;
 
 	case O_TYPE:
-		if (strcmp(optarg, "forward") == 0)
+		if (strcmp(cb->arg, "forward") == 0)
 			info->type = XT_SERVICE_TYPE_FORWARD;
-		else if (strcmp(optarg, "proxy") == 0)
+		else if (strcmp(cb->arg, "proxy") == 0)
 			info->type = XT_SERVICE_TYPE_PROXY;
 		else
 			xtables_error(PARAMETER_PROBLEM,
