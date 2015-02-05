@@ -29,7 +29,7 @@ service_help_v2(void)
 	printf(
 "service v%s options:\n"
 "  --service-name <svc>		match service name\n"
-"  --service-type <mode>	match service type: forward | proxy\n"
+"  --service-type <mode>	match service type: forward | proxy | deny\n"
 "  --nocount			do not count matching service\n",
 XTABLES_VERSION);
 }
@@ -137,6 +137,8 @@ service_parse_v2(struct xt_option_call *cb)
 			info->type = XT_SERVICE_TYPE_FORWARD;
 		else if (strcmp(cb->arg, "proxy") == 0)
 			info->type = XT_SERVICE_TYPE_PROXY;
+		else if (strcmp(cb->arg, "deny") == 0)
+			info->type = XT_SERVICE_TYPE_DENY;
 		else
 			xtables_error(PARAMETER_PROBLEM,
 				   "`--service-type' must be accompanied "
@@ -177,6 +179,9 @@ get_type_name_from_type_num(enum xt_service_type type)
 
 	case XT_SERVICE_TYPE_FORWARD:
 		return "forward";
+
+	case XT_SERVICE_TYPE_DENY:
+		return "deny";
 	}
 
 	return NULL;
