@@ -1,3 +1,9 @@
+iptables-addons (6.0.0) zorp60; urgency=low
+
+  * New version for Zorp-6.0 release
+
+ -- Zorp Maintainers <devel@balabit.com>  Thu, 05 Feb 2015 18:20:44 +0100
+
 iptables-addons (1.0-1bb60.1) zorp60; urgency=low
 
   * Bumped version for zorp-6.0
