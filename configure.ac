@@ -17,7 +17,7 @@ fi
 
 AC_CHECK_HEADERS([linux/netfilter/x_tables.h], [],
 	[AC_MSG_ERROR([You need to have linux/netfilter/x_tables.h])])
-PKG_CHECK_MODULES([libxtables], [xtables >= 1.4.5])
+PKG_CHECK_MODULES([xtables], [xtables >= 1.4.5])
 
 regular_CFLAGS="-Wall -Waggregate-return -Wmissing-declarations \
 	-Wmissing-prototypes -Wredundant-decls -Wshadow -Wstrict-prototypes \
@@ -38,6 +38,7 @@ AC_SUBST(ADDONS_DIR)
 
 AC_SUBST([regular_CFLAGS])
 AC_SUBST([regular_CPPFLAGS])
+AC_SUBST([xtables_CFLAGS])
 AC_SUBST([kinclude_CPPFLAGS])
 
 AC_CONFIG_FILES([Makefile extensions/GNUmakefile	])
