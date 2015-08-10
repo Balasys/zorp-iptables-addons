@@ -1,1 +1,1 @@
-usr/lib/xtables/libxt_KZORP.so /lib/xtables
+usr/lib/*/xtables/libxt_KZORP.so /lib/xtables
