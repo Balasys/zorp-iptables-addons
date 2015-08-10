@@ -11,7 +11,8 @@ build-stamp:
 
 	./autogen.sh
 	CFLAGS=$(DTEST) ./configure \
-		--prefix= \
+		--prefix=/usr \
+		--libdir=/lib \
 		--mandir=\$${prefix}/share/man \
 		--infodir=\$${prefix}/share/info \
 		--localstatedir=/var \

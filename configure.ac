@@ -9,8 +9,6 @@ AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 AM_PROG_LIBTOOL
 
-AC_PREFIX_DEFAULT(/usr/local)
-
 if test "x$prefix" = "xNONE"; then
         prefix=$ac_default_prefix
 fi
@@ -32,7 +30,7 @@ if [[ -n "$ksourcedir" ]]; then
 	kinclude_CPPFLAGS="$kinclude_CPPFLAGS -I$ksourcedir/include/uapi -I$ksourcedir/include";
 fi;
 
-ADDONS_DIR="${prefix}/lib/xtables"
+ADDONS_DIR="${libdir}/xtables"
 
 AC_SUBST(ADDONS_DIR)
 
