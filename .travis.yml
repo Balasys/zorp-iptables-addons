@@ -38,3 +38,14 @@ env:
     - OBS_MINOR_VERSION=0
     - OBS_MAINTENANCE_VERSION=1
     - OBS_PACKAGE=iptables-addons
+    - secure: "PtYFTdMRuwdZSzZXJCYpjL2e9IatkPuzfOaWHryxKeKF5OFj2MEvsvPoAqQOagqZxvPBVDwEJLLYnAOJfCis4ExdJRgv9mXKbf5a5Itt/bks8IIWzqabvZrjXfxeo49Uhil2EeZwCXnRRhnVRARjMPahU/InmFZZQVkgkJddhAg="
+
+addons:
+  coverity_scan:
+    project:
+      name: "balabit/zorp-iptables-addons"
+      description: "Build submitted via Travis CI"
+    notification_email: coroner@pfeifferszilard.hu
+    build_command_prepend: "autoreconf -if; ./configure; make clean"
+    build_command:   "make -j4"
+    branch_pattern: 6.0.1
