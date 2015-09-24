@@ -38,3 +38,14 @@ env:
     - OBS_MINOR_VERSION=0
     - OBS_MAINTENANCE_VERSION=11
     - OBS_PACKAGE=iptables-addons
+    - secure: "GouWBmybPVIbTHPMtk1zKycllflIovga8FfOXmRzSm2PPlv6PGMNwLCwwU2gmAjO1+E4et9At/aDUfC00S4x+QnoTbolkWCZ8i95HjcpU5OzXtch/iwABKhvKYbt1hctKdrMM2g7limXTONwlPjKlMdxtYJySa0BoUZ6cxjHUCpzwIL35TNBEe0BrYoSq8ik0suBeC2+Sn0PyRe6LiB1Q5ULdTki6F/4vonvdA5tPCRHgEfIoIlfoHjOYuugvIx1ZDUwlfRvqnwi2p8IoA7bLafEF6mSuGUYjiV7IHn8GSi3+KDigZsd5VmgoZD3CGqkXwTag8YGkVChTnFoq2mCAS5kxlFgbdGTBHK91hpAMuABEOhZcIFZRDlq0zMcD4zYtejczvALr+tPAgCSiAsymwG/WLuQcdH1AUn5hsGzyIWsRV6CdM/1oPdhcGy1ZL2lCL2Rt/bw879fUezxjh0CT0yKxBv5YVamxSgG9lqciE5H6u/gB2do9kAS90Kck8SCSTdOMZs82fSVY+R7sfb6uh+jC4nwysDaY1diJIj1sraUwz/++nkclfJdP3/ZXUzzK8oRIqKhbCrqapz/R99UIGmO5ujQzrdX4flHu73TrTuHLlFeZbSkZ31A4IruLZfqm1ZurAQ8mUuErKGNXgUS4Um+R8aTu0ME9qOk68gcvao="
+
+addons:
+  coverity_scan:
+    project:
+      name: "Balasys/zorp-iptables-addons"
+      description: "Build submitted via Travis CI"
+    notification_email: coroner@pfeifferszilard.hu
+    build_command_prepend: "autoreconf -if; ./configure; make clean"
+    build_command:   "make -j4"
+    branch_pattern: 6.0.11
