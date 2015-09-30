@@ -18,9 +18,10 @@ CFLAGS         := @CFLAGS@
 LDFLAGS        := @LDFLAGS@
 regular_CFLAGS     = @regular_CFLAGS@
 regular_CPPFLAGS   = @regular_CPPFLAGS@
+xtables_CFLAGS     = @xtables_CFLAGS@
 kinclude_CPPFLAGS  = @kinclude_CPPFLAGS@
 
-AM_CFLAGS       = ${regular_CFLAGS}
+AM_CFLAGS       = ${regular_CFLAGS} ${xtables_CFLAGS}
 AM_CPPFLAGS     = ${regular_CPPFLAGS} -I${top_builddir}/include -I${top_builddir} -I${top_srcdir}/include ${kinclude_CPPFLAGS}
 
 ifeq (${V},)
