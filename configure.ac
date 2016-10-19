@@ -42,5 +42,8 @@ AC_SUBST([regular_CPPFLAGS])
 AC_SUBST([xtables_CFLAGS])
 AC_SUBST([kinclude_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile extensions/GNUmakefile	])
+AC_CONFIG_FILES(
+Makefile
+extensions/Makefile
+)
 AC_OUTPUT
