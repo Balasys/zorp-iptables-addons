@@ -1,9 +1,10 @@
 AC_INIT([iptables-addons], [6.0.1])
+AM_INIT_AUTOMAKE([foreign])
+AC_CONFIG_SRCDIR([extensions/libxt_KZORP.c])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_INSTALL
-AM_INIT_AUTOMAKE([-Wall])
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_DISABLE_STATIC
