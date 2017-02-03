@@ -1,4 +1,4 @@
-AC_INIT([iptables-addons], [6.0.1])
+AC_INIT([iptables-addons], m4_esyscmd([tr -d '\n' < VERSION]))
 AM_INIT_AUTOMAKE([foreign])
 AC_CONFIG_SRCDIR([extensions/libxt_KZORP.c])
 
