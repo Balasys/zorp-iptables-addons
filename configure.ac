@@ -45,6 +45,7 @@ AC_SUBST([kinclude_CPPFLAGS])
 AC_CONFIG_FILES(
 Makefile
 debian/Makefile
+debian/source/Makefile
 extensions/Makefile
 )
 AC_OUTPUT
