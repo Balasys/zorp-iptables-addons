@@ -1,9 +1,10 @@
-AC_INIT([iptables-addons], [6.0.1])
+AC_INIT([iptables-addons], m4_esyscmd([tr -d '\n' < VERSION]))
+AM_INIT_AUTOMAKE([foreign])
+AC_CONFIG_SRCDIR([extensions/libxt_KZORP.c])
 
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_INSTALL
-AM_INIT_AUTOMAKE([-Wall])
 AC_PROG_CC
 AM_PROG_CC_C_O
 AC_DISABLE_STATIC
@@ -41,5 +42,10 @@ AC_SUBST([regular_CPPFLAGS])
 AC_SUBST([xtables_CFLAGS])
 AC_SUBST([kinclude_CPPFLAGS])
 
-AC_CONFIG_FILES([Makefile extensions/GNUmakefile	])
+AC_CONFIG_FILES(
+Makefile
+debian/Makefile
+debian/source/Makefile
+extensions/Makefile
+)
 AC_OUTPUT

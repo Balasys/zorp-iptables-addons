@@ -1,5 +1,3 @@
-# -*- Makefile -*-
+SUBDIRS          = debian extensions
 
-SUBDIRS          = extensions
-DIST_SUBDIRS     = extensions
-
+EXTRA_DIST       = VERSION
