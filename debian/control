@@ -3,14 +3,16 @@ Section: misc
 Priority: optional
 Maintainer: ZorpOS Maintainers <zorpos@balabit.com>
 Standards-Version: 3.2.0
-Build-Depends: iptables-dev, debhelper (>= 9), build-essential, devscripts, pkg-config, autoconf, automake, libtool, dh-autoreconf
+Build-Depends: iptables-dev, debhelper (>= 9), devscripts, pkg-config, autoconf, automake, libtool, dh-autoreconf
 
 Package: iptables-zorp-addons
 Architecture: any
 Depends: ${shlibs:Depends}, iptables, debconf
-Description: Iptables addons for zone and service matches.
+Description: Iptables addons for kZorp related matches.
+ This packages provides the userspace libraries for kZorp related matches.
 
 Package: iptables-kzorp-addon
 Architecture: any
 Depends: ${shlibs:Depends}, iptables, debconf
-Description: Iptables addon for Kzorp target
+Description: Iptables addon for kZorp target
+ This packages provides the userspace libraries for KZORP target.
