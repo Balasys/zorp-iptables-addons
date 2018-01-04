@@ -18,7 +18,7 @@ before_script:
   - sudo mk-build-deps -i -r
 
 script:
-  - ./autogen.sh
+  - autoreconf -if
   - ./configure --prefix=$HOME
   - make
   - make check
@@ -31,21 +31,21 @@ after_success:
 
 env:
   global:
-    - secure: "WTXM762CTrWg7lfFlW3kS2MYoIlOctJw/qVpKJHM5nIhvfMv4WCaB9X07qO1icgmWRYsKpcwT2VI4Kxe79DWE7iM0hatradd0G0EBmpbTNyLO6ZivgKr621s1XhQ0ZmCZq1KK0LQW2BhRtYImLd1/NZMZxQTElUmRgpFX/s7760="
+    - secure: "cR2clzakpM21VwsjfCt295/lu2wV4XkHCQrZuD0uCA9yRTnbZK4wOlL79fpWAjzZ+5m9pV2Am4BSn0hdd0ylGpK5B1PK3rNDAieKC6PPO04/yXwS5XKyatMS1SC++4HxtG48HBKlHGuBG66MTX/3fO4N36ThZh6i+Vbiz4/BnS4H7xCKrxpmC+VHFp5O2mTkt4KPmmgTDHOPeiDbfu8hNpYtepU0vbA+S3+JDPbIHvyBbrJTfRo3KzXAD8/NKM1UuFpTeWET+Mt9WAISENVLGruX3/yg0TaKZ+yDbVwZydoiflbUxy5jw7pTQhp1ETkQyMT2nKVB9pv/VTCRuWdBxCfgnKK59UZIxnvwXBNMyhp6zzY8AvdzSbT+Hjp47zGcA6qyNQbfwoRm+Uk0dU7EHOQjNJjAJI25Amue+scNRNatPWg/b7Xd4ChvWXV2P37kwNtlJ4hEPPNeehVmkkPiec1FmG1DsbtZWj/ZMhpv5WAfbYay/Yh6E0r2agA/YMpwHdZPQOwW4k0yXeZL2kQ0p+SbMSTSs2aCRh5DWnnrdWmcLsabOebGpX4spTNZZPlnyiV14GkKw+fQZ5tp5uE9rrOroqrQJF5/ZFBHAkRvjRIv3fvhq7fNHLIDRbzg2uNJzptm2XUYVpfmssgxUmov0FSTo/7p3yN4jBqOM/fjRUE="
     - OBS_HOME=security
     - OBS_PROJECT=Zorp
     - OBS_MAJOR_VERSION=6
     - OBS_MINOR_VERSION=0
-    - OBS_MAINTENANCE_VERSION=1
+    - OBS_MAINTENANCE_VERSION=11
     - OBS_PACKAGE=iptables-addons
-    - secure: "PtYFTdMRuwdZSzZXJCYpjL2e9IatkPuzfOaWHryxKeKF5OFj2MEvsvPoAqQOagqZxvPBVDwEJLLYnAOJfCis4ExdJRgv9mXKbf5a5Itt/bks8IIWzqabvZrjXfxeo49Uhil2EeZwCXnRRhnVRARjMPahU/InmFZZQVkgkJddhAg="
+    - secure: "GouWBmybPVIbTHPMtk1zKycllflIovga8FfOXmRzSm2PPlv6PGMNwLCwwU2gmAjO1+E4et9At/aDUfC00S4x+QnoTbolkWCZ8i95HjcpU5OzXtch/iwABKhvKYbt1hctKdrMM2g7limXTONwlPjKlMdxtYJySa0BoUZ6cxjHUCpzwIL35TNBEe0BrYoSq8ik0suBeC2+Sn0PyRe6LiB1Q5ULdTki6F/4vonvdA5tPCRHgEfIoIlfoHjOYuugvIx1ZDUwlfRvqnwi2p8IoA7bLafEF6mSuGUYjiV7IHn8GSi3+KDigZsd5VmgoZD3CGqkXwTag8YGkVChTnFoq2mCAS5kxlFgbdGTBHK91hpAMuABEOhZcIFZRDlq0zMcD4zYtejczvALr+tPAgCSiAsymwG/WLuQcdH1AUn5hsGzyIWsRV6CdM/1oPdhcGy1ZL2lCL2Rt/bw879fUezxjh0CT0yKxBv5YVamxSgG9lqciE5H6u/gB2do9kAS90Kck8SCSTdOMZs82fSVY+R7sfb6uh+jC4nwysDaY1diJIj1sraUwz/++nkclfJdP3/ZXUzzK8oRIqKhbCrqapz/R99UIGmO5ujQzrdX4flHu73TrTuHLlFeZbSkZ31A4IruLZfqm1ZurAQ8mUuErKGNXgUS4Um+R8aTu0ME9qOk68gcvao="
 
 addons:
   coverity_scan:
     project:
-      name: "balabit/zorp-iptables-addons"
+      name: "Balasys/zorp-iptables-addons"
       description: "Build submitted via Travis CI"
     notification_email: coroner@pfeifferszilard.hu
     build_command_prepend: "autoreconf -if; ./configure; make clean"
     build_command:   "make -j4"
-    branch_pattern: 6.0.1
+    branch_pattern: 6.0.11

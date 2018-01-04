@@ -1,2 +1,2 @@
-[![Travis Build Status](https://secure.travis-ci.org/balabit/zorp-iptables-addons.svg?branch=6.0.1)](http://travis-ci.org/balabit/zorp-iptables-addons)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/balabit-zorp-iptables-addons/badge.svg)](https://scan.coverity.com/projects/balabit-zorp-iptables-addons)
+[![Travis Build Status](https://secure.travis-ci.org/balasys/zorp-iptables-addons.svg?branch=6.0.11)](http://travis-ci.org/balasys/zorp-iptables-addons)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/balasys-zorp-iptables-addons/badge.svg)](https://scan.coverity.com/projects/balasys-zorp-iptables-addons)
