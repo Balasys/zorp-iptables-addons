@@ -1,7 +1,7 @@
 Source: iptables-addons
 Section: misc
 Priority: optional
-Maintainer: ZorpOS Maintainers <zorpos@balabit.com>
+Maintainer: BalaSys Development Team <devel@balasys.hu>
 Standards-Version: 3.2.0
 Build-Depends: iptables-dev, debhelper (>= 9), devscripts, pkg-config, autoconf, automake, libtool, dh-autoreconf
 
