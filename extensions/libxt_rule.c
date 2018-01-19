@@ -3,7 +3,6 @@
  * packets based on KZorp rules
  *
  * Copyright (C) 2006,2009 BalaBit IT Ltd.
- * Author: KOVACS Krisztian <hidden@balabit.hu>
  */
 #include <stdio.h>
 #include <netdb.h>

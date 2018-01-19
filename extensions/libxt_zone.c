@@ -3,8 +3,6 @@
  * packets based on KZorp zones
  *
  * Copyright (C) 2006-2009, BalaBit IT Ltd.
- * Author: KOVACS Krisztian <hidden@balabit.hu>,
- *         TOTH Laszlo Attila <panther@balabit.hu>
  */
 #include <stdio.h>
 #include <ctype.h>
