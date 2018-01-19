@@ -1,7 +1,7 @@
 /*
  * Shared library add-on to iptables to add KZORP target support.
  *
- * Copyright (C) 2011 BalaBit IT Ltd.
+ * Copyright (C) 2000-2015 BalaBit IT Security, 2015-2017 BalaSys IT Security.
  */
 #include <getopt.h>
 #include <stdbool.h>
