@@ -16,7 +16,10 @@ fi
 
 AC_CHECK_HEADERS([linux/netfilter/x_tables.h], [],
 	[AC_MSG_ERROR([You need to have linux/netfilter/x_tables.h])])
+
 PKG_CHECK_MODULES([xtables], [xtables >= 1.4.5])
+PKG_CHECK_VAR([ADDONS_DIR], [xtables], [xtlibdir], [],
+	      [AC_MSG_ERROR([Cannot find xtlibdir variable in pkg config file of xtables])])
 
 regular_CFLAGS="-Wall -Waggregate-return -Wmissing-declarations \
 	-Wmissing-prototypes -Wredundant-decls -Wshadow -Wstrict-prototypes \
@@ -30,8 +33,6 @@ fi;
 if [[ -n "$ksourcedir" ]]; then
 	kinclude_CPPFLAGS="$kinclude_CPPFLAGS -I$ksourcedir/include/uapi -I$ksourcedir/include";
 fi;
-
-ADDONS_DIR="${libdir}/xtables"
 
 AC_SUBST(ADDONS_DIR)
 
