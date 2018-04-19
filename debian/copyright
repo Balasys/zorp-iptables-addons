@@ -1,7 +1,7 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: zorp-iptables-addons
 Upstream-Contact: BalaSys Development Team <devel@balasys.hu>
-Source: https://github.com/balabit/zorp-iptables-addons
+Source: https://github.com/balasys/zorp-iptables-addons
 
 Files: *
 Copyright: 2011-2015 BalaBit IT Security, 2015-2017 BalaSys IT Security
