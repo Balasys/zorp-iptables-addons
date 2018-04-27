@@ -2,8 +2,7 @@
  * Shared library add-on to iptables to match
  * packets based on KZorp services
  *
- * Copyright (C) 2006,2009 BalaBit IT Ltd.
- * Author: KOVACS Krisztian <hidden@balabit.hu>
+ * Copyright (C) 2006-2015 BalaBit IT Security, 2015-2017 BalaSys IT Security.
  */
 #include <stdio.h>
 #include <netdb.h>

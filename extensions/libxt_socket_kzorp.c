@@ -1,7 +1,7 @@
 /*
  * Shared library add-on to iptables to add early socket matching support.
  *
- * Copyright (C) 2007,2014 BalaBit IT Ltd.
+ * Copyright (C) 2007-2015 BalaBit IT Security, 2015-2017 BalaSys IT Security.
  */
 #include <stdio.h>
 #include <xtables.h>
