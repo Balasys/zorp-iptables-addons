@@ -1,4 +1,4 @@
-usr/lib/*/xtables/libxt_rule.so /lib/xtables
-usr/lib/*/xtables/libxt_service.so /lib/xtables
-usr/lib/*/xtables/libxt_socket_kzorp.so /lib/xtables
-usr/lib/*/xtables/libxt_zone.so /lib/xtables
+usr/lib/*/xtables/libxt_rule.so
+usr/lib/*/xtables/libxt_service.so
+usr/lib/*/xtables/libxt_socket_kzorp.so
+usr/lib/*/xtables/libxt_zone.so
